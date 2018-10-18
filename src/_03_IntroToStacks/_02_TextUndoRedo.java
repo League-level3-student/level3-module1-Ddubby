@@ -2,6 +2,7 @@ package _03_IntroToStacks;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,7 +14,8 @@ public class _02_TextUndoRedo implements KeyListener {
 	private JPanel panel = new JPanel();
 	private String current;
 	private String next;
-
+	private Stack<String> characters = new Stack<String>();
+	private Stack<String> redo = new Stack<String>();
 	/*
 	 * Create a JFrame with a JPanel and a JLabel.
 	 * 
@@ -41,21 +43,40 @@ public class _02_TextUndoRedo implements KeyListener {
 		frame.addKeyListener(this);
 	}
 
+	public void makeLabel() {
+		String labelText = "";
+		for (String string : characters) {
+			labelText = labelText + string;
+		}
+		label.setText(labelText);
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		current = String.valueOf(e.getKeyChar());
-		next = label.getText();
-		label.setText(next + current);
-
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-			label.setText(next);
-		}
 		// TODO Auto-generated method stub
+		//System.out.println("typed");
+		current = String.valueOf(e.getKeyChar());
+		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			if (!characters.isEmpty()) {
+				String deleted = characters.pop();
+				redo.push(deleted);
+			}
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_0) {
+			if (!redo.isEmpty()) {
+			String undo = redo.pop();
+			characters.push(undo);
+			}
+		} else {
+			characters.push(current);
+		}
+		makeLabel();
 	}
 
 	@Override
