@@ -13,8 +13,9 @@ public class _01_IntroToHashMaps {
 		}
 		//3. Iterate through all the entries in your HashMap displaying the keys with their respective
 		//   square roots (values). Use the following format.
-		for (Integer integer : roots.keySet()) {
-			System.out.println("The square Root of " + integer);
+		for (Integer integers : roots.keySet()) {
+			double doubles = roots.get(integers);
+				System.out.println("The square Root of " + integers + " is " + doubles);
 		}
 		//   The square Root of 0 is 0.0
 		//   The square Root of 1 is 1.0
